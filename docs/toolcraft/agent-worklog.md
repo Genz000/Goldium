@@ -4,9 +4,19 @@
 
 Mode: product
 
-Active change: goldium-2
+Active change: goldium-3
 
 ## Decision Trail
+
+### Change ID: goldium-3
+
+- Entry type: focused
+- Change ID: goldium-3
+- Request: "I want you to add to the application to add position X and Y. Values and a switch to center the elements in the Canva."
+- Changed owner: src/gold/gold-settings.ts (center/x/y, placeImage offset, placementOffset), gold-controls.ts (Placement: source.center, source.x, source.y), gold-gl.ts, gold-pipeline.ts, gold-inventory.ts, gold.test.ts.
+- User-visible result: Placement gets a Center switch (on by default). Turning it off shows X and Y sliders that shift the image centre from the canvas centre in % of canvas width/height (-50 to 50, typed up to ±200; right and down are positive). Turning Center back on recentres the image and keeps the X/Y values.
+- Verification: typecheck passes; src tests pass except the known Windows-only kit failure; in the app Center off reveals X/Y, X 25.9 % / Y -25.5 % moves the gold ball right and up, Center on recentres it.
+- Risks: Risk: an offset image is clipped at the finite canvas edge, like Cover.
 
 ### Change ID: goldium-2
 

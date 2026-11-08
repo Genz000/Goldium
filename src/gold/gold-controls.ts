@@ -34,6 +34,24 @@ export const placementControls = {
     min: 0.1, max: 2, step: 0.01, editableRange: { hardMin: 0.01 },
     description: "Size of the image relative to the Fit size.",
   },
+  center: {
+    ...live, type: "switch", target: "source.center", label: "Center", defaultValue: d.center,
+    description: "Keeps the image centred in the canvas. Turn off to place it with X and Y.",
+  },
+  x: {
+    applicability: { mode: "conditional", all: [{ target: "source.center", equals: false }] },
+    performanceRole: live.performanceRole, performanceReason: live.performanceReason,
+    ...slider, type: "slider", target: "source.x", label: "X", defaultValue: d.x,
+    min: -50, max: 50, step: 0.1, unit: "%", editableRange: { hardMin: -200, hardMax: 200 },
+    description: "Horizontal shift of the image from the canvas centre, in % of the canvas width. Positive moves right.",
+  },
+  y: {
+    applicability: { mode: "conditional", all: [{ target: "source.center", equals: false }] },
+    performanceRole: live.performanceRole, performanceReason: live.performanceReason,
+    ...slider, type: "slider", target: "source.y", label: "Y", defaultValue: d.y,
+    min: -50, max: 50, step: 0.1, unit: "%", editableRange: { hardMin: -200, hardMax: 200 },
+    description: "Vertical shift of the image from the canvas centre, in % of the canvas height. Positive moves down.",
+  },
   cutout: {
     ...always, type: "switch", target: "source.cutout", label: "Cut out white", defaultValue: d.cutout,
     description: "For photos without transparency: cuts away the white surround of the object (flood fill from the image border).",

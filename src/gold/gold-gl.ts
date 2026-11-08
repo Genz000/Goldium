@@ -1,5 +1,5 @@
 import { GOLD_FRAGMENT, GOLD_VERTEX } from "./gold-shader";
-import { curveTable, LOOK_STOPS, placeImage, type GoldSettings } from "./gold-settings";
+import { curveTable, LOOK_STOPS, placeImage, placementOffset, type GoldSettings } from "./gold-settings";
 import type { GoldSource } from "./gold-source";
 
 type Surface = HTMLCanvasElement | OffscreenCanvas;
@@ -107,7 +107,7 @@ export class GoldRenderer {
     gl.useProgram(this.program);
     const l = this.loc;
     const s = this.source;
-    const rect = s ? placeImage(sceneW, sceneH, s.width, s.height, settings.fit, settings.scale) : { x: 0, y: 0, width: 1, height: 1 };
+    const rect = s ? placeImage(sceneW, sceneH, s.width, s.height, settings.fit, settings.scale, placementOffset(settings)) : { x: 0, y: 0, width: 1, height: 1 };
     gl.uniform2f(l.uRes, w, h);
     gl.uniform1f(l.uScale, w / Math.max(1, sceneW));
     gl.uniform4f(l.uRect, rect.x, rect.y, rect.width, rect.height);

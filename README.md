@@ -12,6 +12,7 @@ Turns an object into gold. Upload a transparent PNG of an object and it is rebui
 - Metal adds the polished-metal look: chrome banding, reflections off the surface relief and bright glints (Metallic 0 to 100 %)
 - Color Lookup applies a gold look over the result: Amber gold, Rose gold, Antique gold or Champagne, with Strength
 - Hue/Saturation adjusts Hue, Saturation and Lightness of the Master, Reds or Yellows range
+- Placement: Fit, Scale, and a Center switch; turn Center off to move the object with X and Y
 - Cut out white removes a plain white surround for photos without transparency
 - Exports PNG (with or without background) or JPG at 2K, 4K or 8K
 

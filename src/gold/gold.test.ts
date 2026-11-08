@@ -42,6 +42,7 @@ describe("image placement", () => {
   });
   it("covers the canvas and crops the overflow", () => {
     expect(placeImage(1000, 1000, 2000, 1000, "cover", 1)).toEqual({ x: -500, y: 0, width: 2000, height: 1000 });
+    expect(placeImage(1000, 500, 100, 100, "contain", 1, { x: 10, y: -20 })).toEqual({ x: 350, y: -100, width: 500, height: 500 });
   });
 });
 

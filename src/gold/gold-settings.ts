@@ -13,6 +13,12 @@ export type HueRange = "master" | "reds" | "yellows";
 export type GoldSettings = {
   fit: FitMode;
   scale: number;
+  /** Centre the image in the canvas; when off, X and Y place it. */
+  center: boolean;
+  /** Offset of the image centre from the canvas centre, % of canvas width (right is positive). */
+  x: number;
+  /** Offset of the image centre from the canvas centre, % of canvas height (down is positive). */
+  y: number;
   cutout: boolean;
   tolerance: number;
   /** Levels input black point, 0..253. */
@@ -44,6 +50,9 @@ export type GoldSettings = {
 export const goldDefaults: GoldSettings & { background: string } = {
   fit: "contain",
   scale: 0.8,
+  center: true,
+  x: 0,
+  y: 0,
   cutout: false,
   tolerance: 24,
   levelsBlack: 52,
@@ -63,7 +72,7 @@ export const goldDefaults: GoldSettings & { background: string } = {
   background: "#1F2021",
 };
 
-export const imageTargets = ["source.fit", "source.scale", "source.cutout", "source.tolerance"] as const;
+export const imageTargets = ["source.fit", "source.scale", "source.center", "source.x", "source.y", "source.cutout", "source.tolerance"] as const;
 export const levelsTargets = ["levels.black", "levels.gamma", "levels.white"] as const;
 export const tintTargets = ["tint.color", "tint.opacity"] as const;
 export const curvesTargets = ["curves.shadows", "curves.highlights"] as const;
@@ -87,6 +96,9 @@ export function readGoldSettings(values: Readonly<Record<string, unknown>>): Gol
   return {
     fit: values["source.fit"] === "cover" ? "cover" : values["source.fit"] === "contain" ? "contain" : d.fit,
     scale: n("source.scale", d.scale),
+    center: b("source.center", d.center),
+    x: n("source.x", d.x),
+    y: n("source.y", d.y),
     cutout: b("source.cutout", d.cutout),
     tolerance: n("source.tolerance", d.tolerance),
     levelsBlack: n("levels.black", d.levelsBlack),
@@ -110,6 +122,11 @@ export function readGoldSettings(values: Readonly<Record<string, unknown>>): Gol
  * Colour Lookup looks as five-stop gradients over luminance (shadow → highlight).
  * "amber" stands in for Photoshop's EdgeAmber.3DL: deep brown shadows, amber mids, pale gold tops.
  */
+/** The X/Y offset that applies: none while Center is on. */
+export function placementOffset(s: Pick<GoldSettings, "center" | "x" | "y">): { x: number; y: number } {
+  return s.center ? { x: 0, y: 0 } : { x: s.x, y: s.y };
+}
+
 export const LOOK_STOPS: Record<LookId, readonly string[]> = {
   amber: ["#1C0E00", "#6B4300", "#C8960F", "#F5CF4A", "#FFF6C2"],
   rose: ["#170705", "#4E1E14", "#A65A42", "#E7A486", "#FFF0E4"],
@@ -117,15 +134,20 @@ export const LOOK_STOPS: Record<LookId, readonly string[]> = {
   champagne: ["#11100A", "#3B3527", "#857A5E", "#D3C8A4", "#FBF7E8"],
 };
 
-/** Image rectangle inside the canvas, in scene pixels. */
+/** Image rectangle inside the canvas, in scene pixels. Offset is the centre shift in % of the canvas. */
 export function placeImage(
   canvasW: number, canvasH: number, imageW: number, imageH: number, fit: FitMode, scale: number,
+  offset: { x: number; y: number } = { x: 0, y: 0 },
 ): { x: number; y: number; width: number; height: number } {
   const fitK = fit === "cover" ? Math.max(canvasW / imageW, canvasH / imageH) : Math.min(canvasW / imageW, canvasH / imageH);
   const k = fitK * scale;
   const width = imageW * k;
   const height = imageH * k;
-  return { x: (canvasW - width) / 2, y: (canvasH - height) / 2, width, height };
+  return {
+    x: (canvasW - width) / 2 + (offset.x / 100) * canvasW,
+    y: (canvasH - height) / 2 + (offset.y / 100) * canvasH,
+    width, height,
+  };
 }
 
 /**

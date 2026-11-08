@@ -11,7 +11,7 @@ const STAGE = {
 const canvasTargets = ["canvas.size.width", "canvas.size.height"];
 const sourceTargets = [IMAGE_TARGET, "source.cutout", "source.tolerance"];
 const uniformTargets = [
-  "source.fit", "source.scale", ...levelsTargets, ...tintTargets, ...curvesTargets, ...metalTargets, ...lookTargets, ...hueTargets,
+  "source.fit", "source.scale", "source.center", "source.x", "source.y", ...levelsTargets, ...tintTargets, ...curvesTargets, ...metalTargets, ...lookTargets, ...hueTargets,
 ];
 const frameInputs = [...uniformTargets, ...canvasTargets];
 
@@ -46,7 +46,7 @@ export const goldPipeline = registerToolcraftRendererPipeline<{
     { interaction: "media-import", targets: [IMAGE_TARGET], invalidates: ["source", "frame"], mustNotInvalidate: [] },
     { interaction: "control-drag", targets: ["source.tolerance"], invalidates: ["source", "frame"], mustNotInvalidate: [] },
     { interaction: "control-change", targets: ["source.cutout", "source.tolerance"], invalidates: ["source", "frame"], mustNotInvalidate: [] },
-    { interaction: "control-drag", targets: uniformTargets.filter((t) => t !== "source.fit" && t !== "lookup.look" && t !== "hue.range"), invalidates: ["frame"], mustNotInvalidate: ["source"] },
+    { interaction: "control-drag", targets: uniformTargets.filter((t) => t !== "source.fit" && t !== "source.center" && t !== "lookup.look" && t !== "hue.range"), invalidates: ["frame"], mustNotInvalidate: ["source"] },
     { interaction: "control-change", targets: [...uniformTargets, ...canvasTargets], invalidates: ["frame"], mustNotInvalidate: ["source"] },
     {
       interaction: "control-change",

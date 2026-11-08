@@ -31,6 +31,7 @@ export const goldSectionInventory = [
     groupingReason: "How the photo sits in the canvas and whether its white background is removed.",
     finiteSelectors: [
       { target: "source.fit", role: "parameter", reason: "Contain or Cover changes only the image size; no other control depends on it." },
+      { target: "source.center", role: "branch", affectedTargets: [], reason: "Center keeps the image in the middle; turning it off reveals X and Y, which move it." },
       { target: "source.cutout", role: "branch", affectedTargets: ["source.scale"], reason: "Cut out white reveals Tolerance and changes which part of the scaled image turns to gold." },
     ],
   },
