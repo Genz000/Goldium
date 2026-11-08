@@ -2,7 +2,7 @@
 
 Turns an object into gold. Upload a transparent PNG of an object and it is rebuilt as polished gold, following a Photoshop recipe with every adjustment layer as a live control.
 
-**Try it:** https://genz000.github.io/goldium/ (desktop browser, window at least 1024 px wide)
+**Try it:** https://genz000.github.io/Goldium/ (desktop browser, window at least 1024 px wide)
 
 ## What it does
 
