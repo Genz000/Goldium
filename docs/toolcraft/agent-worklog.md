@@ -4,9 +4,19 @@
 
 Mode: product
 
-Active change: goldium-3
+Active change: goldium-4
 
 ## Decision Trail
+
+### Change ID: goldium-4
+
+- Entry type: focused
+- Change ID: goldium-4
+- Request: shared links showed the Toolcraft thumbnail; the link preview must show Goldium only.
+- Changed owner: index.html (Open Graph/Twitter tags), public/og-goldium.jpg (1200x630, a gold coin rendered by GoldRenderer from a self-drawn shaded disc; local og.html renders it).
+- User-visible result: link previews show the Goldium title, "Turn any object into gold." and Goldium's own image instead of toolcraft.sh/social-previews/og-toolcraft-v2.jpg.
+- Verification: production build copies og-goldium.jpg to the site root; live page tags and image URL checked after deploy.
+- Risks: Risk: chat apps cache previews; a link shared before this change can keep the old image until their cache expires.
 
 ### Change ID: goldium-3
 
